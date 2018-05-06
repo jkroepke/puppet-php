@@ -16,14 +16,14 @@
 #
 class php::embedded(
   String $ensure                = $php::ensure,
-  String $package               = "${php::package_prefix}${php::params::embedded_package_suffix}",
-  Stdlib::Absolutepath $inifile = $php::params::embedded_inifile,
+  String $package               = "${php::package_prefix}${php::embedded_package_suffix}",
+  Stdlib::Absolutepath $inifile = $php::embedded_inifile,
   Hash $settings                = {},
-) inherits php::params {
+) {
 
   assert_private()
 
-  $real_settings = deep_merge(
+  $settings = deep_merge(
     $settings,
     hiera_hash('php::embedded::settings', {})
   )
@@ -39,7 +39,7 @@ class php::embedded(
   }
   -> php::config { 'embedded':
     file   => $inifile,
-    config => $real_settings,
+    config => $settings,
   }
 
 }

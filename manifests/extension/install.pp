@@ -40,7 +40,7 @@ define php::extension::install (
   String           $package_prefix                  = $php::package_prefix,
   Optional[Stdlib::AbsolutePath] $responsefile      = undef,
   Variant[String, Array[String]] $header_packages   = [],
-  Variant[String, Array[String]] $compiler_packages = $php::params::compiler_packages,
+  Variant[String, Array[String]] $compiler_packages = $php::compiler_packages,
   Php::InstallOptions $install_options              = undef,
 ) {
 

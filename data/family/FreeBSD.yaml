@@ -1,0 +1,31 @@
+---
+php::config_root: "%{alias('php::globals_config_root')}"
+php::config_root_ini: "%{hiera('php::config_root')}/php"
+php::config_root_inifile: "%{hiera('php::config_root')}/php.ini"
+# No common packages, because the required PHP base package will be
+# pulled in as a dependency. This preserves the ability to choose
+# any available PHP version by setting the 'package_prefix' parameter.
+php::common_package_names: []
+php::common_package_suffixes: ['extensions']
+php::cli_inifile: "%{hiera('php::config_root')}/php-cli.ini"
+php::dev_package_suffix: ~
+php::fpm_pid_file: "%{alias('php::globals_fpm_pid_file')}"
+php::fpm_config_file: "%{hiera('php::config_root')}/php-fpm.conf"
+php::fpm_error_log: '/var/log/php-fpm.log'
+php::fpm_inifile: "%{hiera('php::config_root')}/php-fpm.ini"
+php::fpm_package_suffix: ~
+php::fpm_pool_dir: "%{hiera('php::config_root')}/php-fpm.d"
+php::fpm_service_name: 'php-fpm'
+php::fpm_user: 'www'
+php::fpm_group: 'www'
+php::embedded_package_suffix: 'embed'
+php::embedded_inifile: "%{hiera('php::config_root')}/php-embed.ini"
+php::package_prefix: 'php56-'
+php::compiler_packages: ['gcc']
+php::manage_repos: false
+php::root_group: 'wheel'
+php::ext_tool_enable: ~
+php::ext_tool_query: ~
+php::ext_tool_enabled: false
+php::config_root: '/usr/local/etc'
+php::fpm_pid_file: '/var/run/php-fpm.pid'

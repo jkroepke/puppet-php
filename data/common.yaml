@@ -1,0 +1,32 @@
+---
+php::ensure: 'present'
+php::fpm_service_enable: true
+php::fpm_service_ensure: 'running'
+php::composer_source: 'https://getcomposer.org/composer.phar'
+php::composer_path: '/usr/local/bin/composer'
+php::composer_max_age: 30
+php::pear_ensure: 'present'
+php::pear_package_suffix: 'pear'
+php::phpunit_source: 'https://phar.phpunit.de/phpunit.phar'
+php::phpunit_path: '/usr/local/bin/phpunit'
+php::phpunit_max_age: 30
+
+php::version: '5.x'
+
+php::fpm: true
+php::fpm_service_provider: ~
+php::fpm_pools: { www: {} }
+php::fpm_global_pool_settings: {}
+php::fpm_package: "%{hiera('php::package_prefix')}%{hiera('php::fpm_package_suffix')}"
+php::embedded: false
+php::dev: true
+php::composer: true
+php::pear: true
+php::phpunit: false
+php::apache_config: false
+php::proxy_type: ~
+php::proxy_server: ~
+php::extensions: {}
+php::settings: {}
+php::log_owner: "%{alias('php::fpm_user')}"
+php::log_group: "%{alias('php::fpm_group')}"

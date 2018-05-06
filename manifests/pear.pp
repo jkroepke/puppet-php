@@ -12,7 +12,7 @@ class php::pear (
   String $ensure            = $php::pear_ensure,
   Optional[String] $package = undef,
   Boolean $manage_repos     = $php::manage_repos,
-) inherits php::params {
+) {
 
   assert_private()
 
@@ -24,22 +24,22 @@ class php::pear (
       # On Amazon Linux the package name is also just 'php-pear'.
       # This would normally not be problematic but if you specify a
       # package_prefix other than 'php' then it will fail.
-      $package_name = "php-${::php::params::pear_package_suffix}"
+      $package_name = "php-${php::pear_package_suffix}"
     }
     else {
       case $facts['os']['family'] {
         'Debian': {
           # Debian is a litte stupid: The pear package is called 'php-pear'
           # even though others are called 'php5-fpm' or 'php5-dev'
-          $package_name = "php-${::php::params::pear_package_suffix}"
+          $package_name = "php-${php::pear_package_suffix}"
         }
         'FreeBSD': {
           # On FreeBSD the package name is just 'pear'.
-          $package_name = $php::params::pear_package_suffix
+          $package_name = $php::pear_package_suffix
         }
         default: {
           # This is the default for all other architectures
-          $package_name = "${::php::package_prefix}${::php::params::pear_package_suffix}"
+          $package_name = "${::php::package_prefix}${php::pear_package_suffix}"
         }
       }
     }
@@ -59,7 +59,11 @@ class php::pear (
 
     package { $package_name:
       ensure  => $ensure,
-      require => [$require,Class['php::cli'],Package["${php::package_prefix}xml"]],
+      require => [
+        $require,
+        Class['php::cli'],
+        Package["${php::package_prefix}xml"]
+      ],
     }
   } else {
     package { $package_name:

@@ -1,0 +1,29 @@
+---
+php::config_root: "%{alias('php::globals_config_root')}"
+php::config_root_ini: "%{hiera('php::config_root')}/php.d"
+php::config_root_inifile: "%{hiera('php::config_root')}/php.ini"
+php::common_package_names: []
+php::common_package_suffixes: ['cli', 'common']
+php::cli_inifile: "%{hiera('php::config_root')}/php-cli.ini"
+php::dev_package_suffix: 'devel'
+php::fpm_pid_file: "%{alias('php::globals_fpm_pid_file')}"
+php::fpm_config_file: "%{hiera('php::config_root')}/php-fpm.conf"
+php::fpm_error_log: '/var/log/php-fpm/error.log'
+php::fpm_inifile: "%{hiera('php::config_root')}/php-fpm.ini"
+php::fpm_package_suffix: 'fpm'
+php::fpm_pool_dir: "%{hiera('php::config_root')}/php-fpm.d"
+php::fpm_service_name: 'php-fpm'
+php::fpm_user: 'apache'
+php::fpm_group: 'apache'
+php::apache_inifile: "%{hiera('php::config_root')}/php.ini"
+php::embedded_package_suffix: 'embedded'
+php::embedded_inifile: "%{hiera('php::config_root')}/php.ini"
+php::package_prefix: 'php-'
+php::compiler_packages: ['gcc', 'gcc-c++', 'make']
+php::manage_repos: false
+php::root_group: 'root'
+php::ext_tool_enable: ~
+php::ext_tool_query: ~
+php::ext_tool_enabled: false
+php::config_root: '/etc'
+php::fpm_pid_file: '/var/run/php-fpm/php-fpm.pid'
