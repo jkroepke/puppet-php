@@ -15,11 +15,11 @@
 #   Defines the time in days after which an auto-update gets executed
 #
 class php::phpunit (
-  String $source             = $php::params::phpunit_source,
-  Stdlib::Absolutepath $path = $php::params::phpunit_path,
+  String $source             = $php::phpunit_source,
+  Stdlib::Absolutepath $path = $php::phpunit_path,
   Boolean $auto_update       = true,
-  Integer $max_age           = $php::params::phpunit_max_age,
-) inherits php::params {
+  Integer $max_age           = $php::phpunit_max_age,
+) {
 
   assert_private()
 

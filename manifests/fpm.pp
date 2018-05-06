@@ -57,11 +57,11 @@ class php::fpm (
   $service_enable               = $php::fpm_service_enable,
   $service_name                 = $php::fpm_service_name,
   $service_provider             = $php::fpm_service_provider,
-  String $package               = $php::real_fpm_package,
+  String $package               = $php::fpm_package,
   Stdlib::Absolutepath $inifile = $php::fpm_inifile,
-  Hash $settings                = $php::real_settings,
-  $global_pool_settings         = $php::real_fpm_global_pool_settings,
-  Hash $pools                   = $php::real_fpm_pools,
+  Hash $settings                = $php::settings,
+  $global_pool_settings         = $php::fpm_global_pool_settings,
+  Hash $pools                   = $php::fpm_pools,
   $log_owner                    = $php::log_owner,
   $log_group                    = $php::log_group,
 ) {
@@ -69,8 +69,6 @@ class php::fpm (
   if ! defined(Class['php']) {
     warning('php::fpm is private')
   }
-
-  $real_settings = deep_merge($settings, hiera_hash('php::fpm::settings', {}))
 
   # On FreeBSD fpm is not a separate package, but included in the 'php' package.
   # Implies that the option SET+=FPM was set when building the port.
@@ -88,7 +86,7 @@ class php::fpm (
     user      => $user,
     group     => $group,
     inifile   => $inifile,
-    settings  => $real_settings,
+    settings  => $settings,
     log_owner => $log_owner,
     log_group => $log_group,
     require   => Package[$real_package],
@@ -98,9 +96,7 @@ class php::fpm (
 
   Class['php::fpm::config'] ~> Class['php::fpm::service']
 
-  $real_global_pool_settings = hiera_hash('php::fpm::global_pool_settings', $global_pool_settings)
-  $real_pools = hiera_hash('php::fpm::pools', $pools)
-  create_resources(::php::fpm::pool, $real_pools, $real_global_pool_settings)
+  create_resources('php::fpm::pool', $pools, $global_pool_settings)
 
   # Create an override to use a reload signal as trusty and utopic's
   # upstart version supports this

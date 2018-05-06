@@ -21,7 +21,7 @@ class php::repo {
     }
     'FreeBSD': {}
     'Suse': {
-      contain ::php::repo::suse
+      contain 'php::repo::suse'
     }
     'RedHat': {
       contain 'php::repo::redhat'

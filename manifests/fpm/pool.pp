@@ -155,7 +155,7 @@ define php::fpm::pool (
   $php_admin_value                         = {},
   $php_admin_flag                          = {},
   $php_directives                          = [],
-  $root_group                              = $php::params::root_group,
+  $root_group                              = $php::root_group,
   Optional[Stdlib::Absolutepath] $base_dir = undef,
 ) {
 
@@ -179,7 +179,7 @@ define php::fpm::pool (
     default   => $php::fpm::package,
   }
 
-  $pool_base_dir = pick_default($base_dir, $php::fpm::config::pool_base_dir, $php::params::fpm_pool_dir)
+  $pool_base_dir = pick_default($base_dir, $php::fpm::config::pool_base_dir, $php::fpm_pool_dir)
   if ($ensure == 'absent') {
     file { "${pool_base_dir}/${pool}.conf":
       ensure => absent,

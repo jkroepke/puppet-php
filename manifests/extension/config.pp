@@ -47,7 +47,7 @@
 define php::extension::config (
   String                   $ensure          = 'installed',
   Optional[Php::Provider]  $provider        = undef,
-  Optional[String]         $so_name         = downcase($name),
+  Optional[String]         $so_name         = $name.downcase,
   Optional[String]         $ini_prefix      = undef,
   Optional[String]         $php_api_version = undef,
   Boolean                  $zend            = false,
@@ -62,7 +62,7 @@ define php::extension::config (
 
   if $zend == true {
     $extension_key = 'zend_extension'
-    $module_path = $php_api_version? {
+    $module_path = $php_api_version ? {
       undef   => undef,
       default => "/usr/lib/php5/${php_api_version}/",
     }
@@ -71,46 +71,38 @@ define php::extension::config (
     $module_path = undef
   }
 
-  $ini_name = downcase($so_name)
+  $ini_name = $so_name.downcase
 
   # Ensure "<extension>." prefix is present in setting keys if requested
-  $full_settings = $settings_prefix? {
+  $full_settings = $settings_prefix ? {
     true   => ensure_prefix($settings, "${so_name}."),
     false  => $settings,
     String => ensure_prefix($settings, "${settings_prefix}."),
   }
 
   if $provider != 'pear' {
-    $final_settings = deep_merge(
-      {"${extension_key}" => "${module_path}${so_name}.so"},
-      $full_settings
-    )
+    $final_settings = deep_merge({
+      $extension_key => "${module_path}${so_name}.so",
+    }, $full_settings)
   } else {
     $final_settings = $full_settings
   }
 
-  $config_root_ini = pick_default($php::config_root_ini, $php::params::config_root_ini)
-  ::php::config { $title:
-    file   => "${config_root_ini}/${ini_prefix}${ini_name}.ini",
+  php::config { $title:
+    file   => "${php::config_root_ini}/${ini_prefix}${ini_name}.ini",
     config => $final_settings,
   }
 
-  # Ubuntu/Debian systems use the mods-available folder. We need to enable
-  # settings files ourselves with php5enmod command.
-  $ext_tool_enable   = pick_default($php::ext_tool_enable, $php::params::ext_tool_enable)
-  $ext_tool_query    = pick_default($php::ext_tool_query, $php::params::ext_tool_query)
-  $ext_tool_enabled  = pick_default($php::ext_tool_enabled, $php::params::ext_tool_enabled)
+  if $facts['os']['family'] == 'Debian' and $php::ext_tool_enabled {
+    $cmd = "${php::ext_tool_enable} -s ${sapi} ${so_name}"
 
-  if $facts['os']['family'] == 'Debian' and $ext_tool_enabled {
-    $cmd = "${ext_tool_enable} -s ${sapi} ${so_name}"
-
-    $_sapi = $sapi? {
-      'ALL' => 'cli',
+    $_sapi = $sapi ? {
+      'ALL'   => 'cli',
       default => $sapi,
     }
     exec { $cmd:
-      onlyif  => "${ext_tool_query} -s ${_sapi} -m ${so_name} | /bin/grep 'No module matches ${so_name}'",
-      require => ::Php::Config[$title],
+      onlyif  => "${php::ext_tool_query} -s ${_sapi} -m ${so_name} | /bin/grep 'No module matches ${so_name}'",
+      require => Php::Config[$title],
     }
 
     if $php::fpm {

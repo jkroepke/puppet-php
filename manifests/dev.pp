@@ -10,9 +10,9 @@
 #
 class php::dev(
   String $ensure        = $php::ensure,
-  String $package       = "${php::package_prefix}${php::params::dev_package_suffix}",
+  String $package       = "${php::package_prefix}${php::dev_package_suffix}",
   Boolean $manage_repos = $php::manage_repos,
-) inherits php::params {
+) {
 
   assert_private()
 

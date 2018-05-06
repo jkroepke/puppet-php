@@ -1,0 +1,27 @@
+---
+php::apache_inifile: "%{hiera('php::config_root')}/apache2/php.ini"
+php::cli_inifile: "%{hiera('php::config_root')}/cli/php.ini"
+php::common_package_names: []
+php::common_package_suffixes: ['cli', 'common']
+php::compiler_packages: 'build-essential'
+php::config_root: "%{alias('php::globals_config_root')}"
+php::config_root_ini: "%{hiera('php::config_root')}/mods-available"
+php::config_root_inifile: "%{hiera('php::config_root')}/php.ini"
+php::dev_package_suffix: 'dev'
+php::embedded_inifile: "%{hiera('php::config_root')}/embed/php.ini"
+php::embedded_package_suffix: 'embed'
+php::ext_tool_enable: "%{alias('php::ext_tool_enable')}"
+php::ext_tool_enabled: true
+php::ext_tool_query: "%{alias('php::ext_tool_query')}"
+php::fpm_config_file: "%{hiera('php::config_root')}/fpm/php-fpm.conf"
+php::fpm_error_log: "%{alias('php::fpm_error_log')}"
+php::fpm_group: 'www-data'
+php::fpm_inifile: "%{hiera('php::config_root')}/fpm/php.ini"
+php::fpm_package_suffix: 'fpm'
+php::fpm_pid_file: "%{alias('php::globals_fpm_pid_file')}"
+php::fpm_pool_dir: "%{hiera('php::config_root')}/fpm/pool.d"
+php::fpm_service_name: "%{alias('php::fpm_service_name')}"
+php::fpm_user: 'www-data'
+php::manage_repos: false
+php::package_prefix: "%{alias('php::package_prefix')}"
+php::root_group: 'root'

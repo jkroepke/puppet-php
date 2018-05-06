@@ -1,0 +1,30 @@
+---
+php::config_root_ini: '/etc/php/conf.d'
+php::config_root_inifile: '/etc/php/php.ini'
+php::common_package_names: []
+php::common_package_suffixes: []
+php::cli_inifile: '/etc/php/php.ini'
+php::dev_package_suffix: ~
+php::fpm_pid_file: '/run/php-fpm/php-fpm.pid'
+php::fpm_config_file: '/etc/php/php-fpm.conf'
+php::fpm_error_log: 'syslog'
+php::fpm_inifile: '/etc/php/php.ini'
+php::fpm_package_suffix: 'fpm'
+php::fpm_pool_dir: '/etc/php/php-fpm.d'
+php::fpm_service_name: 'php-fpm'
+php::fpm_user: 'root'
+php::fpm_group: 'root'
+php::apache_inifile: '/etc/php/php.ini'
+php::embedded_package_suffix: 'embedded'
+php::embedded_inifile: '/etc/php/php.ini'
+php::package_prefix: 'php-'
+php::compiler_packages: ['gcc', 'make']
+php::manage_repos: false
+php::root_group: 'root'
+php::ext_tool_enable: ~
+php::ext_tool_query: ~
+php::ext_tool_enabled: false
+php::config_root: '/usr/local/etc'
+php::fpm_pid_file: '/var/run/php-fpm.pid'
+php::config_root: '/etc/php'
+php::fpm_pid_file: '/run/php-fpm/php-fpm.pid'

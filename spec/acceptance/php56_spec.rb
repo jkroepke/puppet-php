@@ -14,10 +14,8 @@ describe 'with specific php version' do
   context 'with params' do
     it 'works with 5.6' do
       pp = <<-EOS
-      class { 'php::globals':
-        php_version => '5.6',
-      }
-      -> class { 'php':
+      class { 'php':
+        version      => '5.6',
         ensure       => 'present',
         manage_repos => true,
         fpm          => true,
