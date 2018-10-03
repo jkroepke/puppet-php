@@ -70,7 +70,7 @@ define php::extension (
   String           $ensure                          = 'installed',
   Optional[Php::Provider] $provider                 = undef,
   Optional[String] $source                          = undef,
-  Optional[String] $so_name                         = undef,
+  Optional[String] $so_name                         = $name,
   Optional[String] $ini_prefix                      = undef,
   Optional[String] $php_api_version                 = undef,
   String           $package_prefix                  = $php::package_prefix,
@@ -108,16 +108,9 @@ define php::extension (
     }
 
     $_settings.each |$settings_name, $settings_hash| {
-      if $so_name {
-        $so_name = $multifile_settings ? {
-          true  => downcase($settings_name),
-          false => pick(downcase($so_name), downcase($name), downcase($settings_name)),
-        }
-      } else {
-        $so_name = $multifile_settings ? {
-          true  => downcase($settings_name),
-          false => pick(downcase($name), downcase($settings_name)),
-        }
+      $so_name = $multifile_settings ? {
+        true  => downcase($settings_name),
+        false => downcase($name),
       }
 
       php::extension::config { $settings_name:
